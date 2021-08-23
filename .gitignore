@@ -1,0 +1,10 @@
+node_modules/
+.cache/
+.idea/
+*.log
+.dapp_build/
+dist/
+stats.json
+.env
+.dappfile.render.yaml
+.DS_Store
