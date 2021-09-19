@@ -22,7 +22,7 @@ class Ride extends BaseEntity {
   status: rideStatus;
 
   @Column({ type: "text" })
-  pickUpAdress: string;
+  pickUpaddress: string;
 
   @Column({ type: "double precision", default: 0 })
   pickUpLat: number;
@@ -31,7 +31,7 @@ class Ride extends BaseEntity {
   pickUpLng: number;
 
   @Column({ type: "text" })
-  dropOfAdress: string;
+  dropOfaddress: string;
 
   @Column({ type: "double precision", default: 0 })
   dropOfLat: number;
