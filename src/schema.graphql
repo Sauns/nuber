@@ -55,7 +55,6 @@ type GetMyPlacesResponse {
 type Query {
   GetMyPlaces: GetMyPlacesResponse!
   GetMyProfile: GetMyProfileResponse!
-  user: User
 }
 
 type Place {

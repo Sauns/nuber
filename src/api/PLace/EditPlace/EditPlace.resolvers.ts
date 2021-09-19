@@ -14,14 +14,13 @@ const resolvers: Resolvers = {
         { req }
       ): Promise<EditPlaceResponse> => {
         const user: User = req.user;
-
         try {
           const place = await Place.findOne({ id: args.placeId });
           if (place) {
             if (place.userId === user.id) {
-              const notNullArgs = cleanNullArgs(args);
+              const notNull = cleanNullArgs(args);
 
-              await Place.update({ id: args.placeId }, { ...notNullArgs });
+              await Place.update({ id: args.placeId }, { ...notNull });
 
               return {
                 ok: true,
@@ -30,7 +29,7 @@ const resolvers: Resolvers = {
             } else {
               return {
                 ok: false,
-                error: "Not authorized",
+                error: "Not Authorized",
               };
             }
           } else {
