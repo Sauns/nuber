@@ -3,12 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-
-import { rideStatus } from "src/types/types";
+import { rideStatus } from "../types/types";
+import Chat from "./Chat";
 import User from "./User";
 
 @Entity()
@@ -17,12 +19,13 @@ class Ride extends BaseEntity {
 
   @Column({
     type: "text",
-    enum: ["ACCEPTED", "FINISHED", "CANCELED", "REQUESTED", "ONROUTE"],
+    enum: ["ACCEPTED", "FINISHED", "CANCELED", "REQUESTING", "ONROUTE"],
+    default: "REQUESTING",
   })
   status: rideStatus;
 
   @Column({ type: "text" })
-  pickUpaddress: string;
+  pickUpAddress: string;
 
   @Column({ type: "double precision", default: 0 })
   pickUpLat: number;
@@ -31,13 +34,13 @@ class Ride extends BaseEntity {
   pickUpLng: number;
 
   @Column({ type: "text" })
-  dropOfaddress: string;
+  dropOffAddress: string;
 
   @Column({ type: "double precision", default: 0 })
-  dropOfLat: number;
+  dropOffLat: number;
 
   @Column({ type: "double precision", default: 0 })
-  dropOfLng: number;
+  dropOffLng: number;
 
   @Column({ type: "double precision", default: 0 })
   price: number;
@@ -48,15 +51,27 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   duration: string;
 
-  @ManyToOne((type) => User, (user) => user.ridesAsDriver)
+  @Column({ nullable: true })
+  passengerId: number;
+
+  @ManyToOne((type) => User, (user) => user.ridesAsPassenger)
   passenger: User;
 
-  @ManyToOne((type) => User, (user) => user.ridesAsDriver)
+  @Column({ nullable: true })
+  driverId: number;
+
+  @ManyToOne((type) => User, (user) => user.ridesAsDriver, { nullable: true })
   driver: User;
+
+  @Column({ nullable: true })
+  chatId: number;
+
+  @OneToOne((type) => Chat, (chat) => chat.ride, { nullable: true })
+  @JoinColumn()
+  chat: Chat;
 
   @CreateDateColumn() createdAt: string;
 
   @UpdateDateColumn() updatedAt: string;
 }
-
 export default Ride;
